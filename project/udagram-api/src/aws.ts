@@ -3,8 +3,22 @@ import {config} from './config/config';
 
 
 // Configure AWS
-const credentials = new AWS.SharedIniFileCredentials({profile: config.aws_profile});
-AWS.config.credentials = credentials;
+const c = config;
+ 
+//Configure AWS
+if(c.aws_profile && c.aws_profile !== "DEPLOYED") {
+  console.log(`Using AWS_PROFILE=${c.aws_profile}`);
+  var credentials = new AWS.SharedIniFileCredentials({profile: c.aws_profile});
+  AWS.config.credentials = credentials;
+}
+AWS.config.getCredentials((err) => {
+    if (err) {
+        console.error(err);
+    }
+    else {
+        console.log(`Successfully loaded AWS credentials of type=${AWS.config.credentials.constructor.name}`)
+    }
+});
 
 export const s3 = new AWS.S3({
   signatureVersion: 'v4',

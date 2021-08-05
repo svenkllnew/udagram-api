@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: simple-node
-        image: YOUR_DOCKER_HUB/simple-node
+        image: svkll/simple-node
         ports:
         - containerPort: 80
 
